@@ -1,4 +1,4 @@
-# Flappy Bird clone: To some extent...
+# Flappy Bird clone: To some extent at least...
 import pygame
 import random
 import sys
@@ -53,7 +53,7 @@ def draw_bird(x, y):
     pygame.draw.polygon(screen, ORANGE, [(x + 10, y), (x + 22, y - 5), (x + 22, y + 5)])
 
     # Wings
-    pygame.draw.polygon(screen, BROWN, [(x - 10, y), (x - 30, y - 10), (x - 30, y + 10)])  #The most realisitic bird ever created :))
+    pygame.draw.polygon(screen, BROWN, [(x - 10, y), (x - 30, y - 10), (x - 30, y + 10)])  #The most realisitic bird ever made :))
 
 def draw_pipes(pipes):
     for pipe in pipes:
@@ -108,7 +108,7 @@ def reset_game():
         'score': 0,
         'game_started': False,
         'game_over': False
-    }
+    }      #Allows the user to restart the game and try again..
 
 # Initial game state
 state = reset_game()
