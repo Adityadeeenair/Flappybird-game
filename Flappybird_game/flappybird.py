@@ -1,4 +1,3 @@
-# Flappy Bird clone with sprite-based bird
 import pygame
 import random
 import sys
@@ -6,7 +5,7 @@ import sys
 # Initialize Pygame
 pygame.init()
 
-# Screen settings
+# Screen settings for the user...
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -20,7 +19,7 @@ pipe_width = 80
 pipe_gap = 180
 pipe_velocity = 4
 
-# Load & scale bird sprite
+# Loads the flappy bird sprite
 bird_img = pygame.image.load('flappybird.png').convert_alpha()
 bird_img = pygame.transform.smoothscale(bird_img, (bird_radius * 2, bird_radius * 2))
 
@@ -32,6 +31,7 @@ FONT = pygame.font.SysFont("Arial", 32)
 WHITE  = (255, 255, 255)
 BLUE   = (135, 206, 250)
 GREEN  = (0, 200, 0)
+DARK_GREEN = (0, 150, 0)  
 BLACK  = (0, 0, 0)
 
 # Cloud data
@@ -49,8 +49,27 @@ def draw_bird(x, y):
     screen.blit(bird_img, rect)
 
 def draw_pipes(pipes):
+    """Draw layered pipes with shading and caps."""
+    cap_height = 20
     for pipe in pipes:
-        pygame.draw.rect(screen, GREEN, pipe)
+        # Draws a dark green border (pipe outline)
+        pygame.draw.rect(screen, DARK_GREEN, pipe.inflate(6, 6))
+
+        # Draws a vertical gradient type shade inside pipe body
+        for i in range(pipe.height):
+            color_ratio = i / pipe.height
+            r = int(GREEN[0] * (1 - color_ratio) + DARK_GREEN[0] * color_ratio)
+            g = int(GREEN[1] * (1 - color_ratio) + DARK_GREEN[1] * color_ratio)
+            b = int(GREEN[2] * (1 - color_ratio) + DARK_GREEN[2] * color_ratio)
+            pygame.draw.line(screen, (r, g, b), (pipe.left + 2, pipe.top + i), (pipe.right - 2, pipe.top + i))
+
+        # Draws a pipe cap
+        if pipe.top == 0:  # Top pipe
+            cap = pygame.Rect(pipe.left - 5, pipe.bottom - cap_height, pipe.width + 10, cap_height)
+        else:  # Bottom pipe
+            cap = pygame.Rect(pipe.left - 5, pipe.top, pipe.width + 10, cap_height)
+        pygame.draw.rect(screen, DARK_GREEN, cap)
+        pygame.draw.rect(screen, GREEN, cap.inflate(-4, -4))
 
 def draw_cloud(cloud):
     x, y = cloud['x'], cloud['y']
@@ -173,10 +192,10 @@ while True:
             draw_pipes(state['pipes'])
             display_score(state['score'])
 
-        # Draw the bird sprite
+        # Draws the bird sprite
         draw_bird(state['bird_x'], state['bird_y'])
 
     # Refresh display & tick
     pygame.display.update()
     clock.tick(60)
-#Feel free to edit and improve the code ;) 
+#Feel free to edit and improvise the code ;)
