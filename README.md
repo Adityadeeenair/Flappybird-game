@@ -11,4 +11,4 @@ Pipes moving across the screen to avoid.
 
 Score system based on successful pipe passes.
 
-  Game Over screen with the option to restart the game
+Game Over screen with the option to restart the game
